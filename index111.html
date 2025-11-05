@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Página com imagens</title>
+     <link rel="stylesheet" href="style.css">
+     <style>
+     body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa;
+  color: #333;
+}
+
+header {
+  background-color: #a4c405;
+  color: white;
+  text-align: center;
+  padding: 1em 0;
+}
+
+.galeria {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+}
+
+.galeria img {
+  border-radius: 8px;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.galeria img:hover {
+  transform: scale(1.05);
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #c0dc09;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #8ad912;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #c6c3c3;
+}
+</style>
+</head>
+<body>
+    <header>
+        <h1>Galeria de Imagens</h1>
+    </header>
+
+    <main>
+        <div class="galeria">
+            <img src="lamborghini.jpg" alt="Imagem 1">
+            <img src="download (1).jpg" alt="Imagem 2">
+            <img src="astonmartin.jpg" alt="Imagem 3">
+            <img src="download.jpg" alt="Imagem 4">
+        </div>
+
+        <button id="trocar">Trocar Imagens</button>
+    </main>
+    <footer>
+    <p>© 2025 - Meu Site</p>
+    <p>Cotação atual do dólar: <span id="cotacao">carregando...</span></p>
+    </footer>
+    <script>
+        const botao = document.getElementById('trocar');
+const imagens = document.querySelectorAll('.galeria img');
+
+
+const imagensLocais = [
+  'lamborghini.jpg',
+  'download (1).jpg',
+  'astonmartin.jpg',
+  'download.jpg'
+];
+
+botao.addEventListener('click', () => {
+  imagens.forEach((img) => {
+  
+    const aleatoria = imagensLocais[Math.floor(Math.random() * imagensLocais.length)];
+    img.src = aleatoria;
+  });
+});
+async function mostrarDolar() {
+      try {
+        const resposta = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const dados = await resposta.json();
+        const cotacao = dados.rates.BRL;
+        document.getElementById('cotacao').textContent = `R$ ${cotacao.toFixed(2)}`;
+      } catch (erro) {
+        document.getElementById('cotacao').textContent = 'Erro ao carregar';
+        console.error('Erro ao buscar cotação:', erro);
+      };
+    };
+
+     mostrarDolar();
+
+    </script>
+    
+</body>
+</html>
